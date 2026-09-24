@@ -77,10 +77,16 @@ def run_combined_research(question):
                     f"{pdf_file.name} indexed successfully."
                 )
 
+        except FileNotFoundError as e:
+            print(f"PDF file not found: {e}")
+            return
+
+        except ValueError as e:
+            print(f"PDF processing error: {e}")
+            return
+
         except Exception as e:
-            print(
-                f"Could not process {pdf_file.name}: {e}"
-            )
+            print(f"Unexpected error while processing {pdf_file.name}: {e}")
             return
 
     # Retrieve relevant chunks
@@ -343,27 +349,24 @@ def run_pdf_research(question=None):
 
     for pdf_file in selected_files:
 
-        relevant_chunks, metadatas, distances = retrieve_relevant_chunks(
-            question,
-            str(pdf_file),
-            top_k=3
-        )
+        try:
+            relevant_chunks, metadatas, distances = retrieve_relevant_chunks(
+                question,
+                str(pdf_file),
+                top_k=3
+            )
 
-        all_relevant_chunks.extend(
-            relevant_chunks
-        )
+            all_relevant_chunks.extend(relevant_chunks)
+            all_metadatas.extend(metadatas)
+            all_distances.extend(distances)
 
-        all_metadatas.extend(
-            metadatas
-        )
+        except Exception as e:
+            print(f"Retrieval failed for {pdf_file.name}: {e}")
+            return
 
-        all_distances.extend(
-            distances
-        )
-
-    if not all_relevant_chunks:
-        print("No relevant document content was found.")
-        return
+        if not all_relevant_chunks:
+            print("No relevant document content was found.")
+            return
 
 
     # Step 5.1: Mixed ranking across all selected PDFs

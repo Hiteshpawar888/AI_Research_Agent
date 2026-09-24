@@ -28,11 +28,14 @@ Question:
 
 Instructions:
 - Use only information from the provided context.
-- Do not invent information.
-- If the answer is not available in the context, clearly say so.
+- Do not use outside knowledge.
+- Do not invent or guess information.
+- If the answer is not available in the provided context, reply exactly:
+  "I could not find this information in the provided documents."
+- If the answer is not found, do not cite unrelated sources or pages.
 - Keep the answer clear and concise.
 - Cite the source and page number for factual information.
-- Add a "Sources" section at the end listing the sources and page numbers used.
+- Add a "Sources" section at the end listing only the sources and page numbers actually used.
 """
 
     return prompt
