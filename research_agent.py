@@ -37,6 +37,7 @@ Requirements:
             model="gpt-5.6-luna",
             reasoning={"effort": "none"},
             tools=[{"type": "web_search"}],
+            tool_choice="required",
             input=prompt
         )
 
@@ -176,11 +177,33 @@ def generate_combined_answer(prompt):
     try:
         start_time = time.time()
 
+        enhanced_prompt = f"""
+{prompt}
+
+Additional response instructions:
+
+- Keep the answer proportional to the user's question.
+- For a short or simple question, answer in no more than 5 concise bullet points.
+- Keep simple answers under about 180 words.
+- Do not create more than 2 headings for a simple question.
+- Do not add an executive summary or long conclusion unless explicitly requested.
+- Do not list every possible detail if the question can be answered briefly.
+- Use both PDF evidence and web evidence when relevant.
+- Include only the most relevant PDF and web sources.
+- Keep citations concise and clear.
+"""
+
         response = client.responses.create(
             model="gpt-5.6-luna",
             reasoning={"effort": "none"},
-            tools=[{"type": "web_search"}],
-            input=prompt
+            tools=[
+                {
+                    "type": "web_search",
+                    "search_context_size": "low"
+                }
+            ],
+            tool_choice="auto",
+            input=enhanced_prompt
         )
 
         end_time = time.time()

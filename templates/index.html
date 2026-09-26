@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Research Agent</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <a
+            href="#home"
+            class="logo"
+        >
+            AI Research Agent
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#features">
+                Features
+            </a>
+
+            <a href="#how-it-works">
+                How It Works
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+        </nav>
+
+
+        <a
+            href="#research"
+            class="nav-button"
+        >
+            Start Research
+        </a>
+
+    </header>
+
+
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
+    <main
+        class="hero-section"
+        id="home"
+    >
+
+
+        <!-- LEFT SIDE -->
+
+        <section class="hero-left">
+
+            <h1>
+                The Future of
+                <br>
+
+                AI Research
+                <br>
+
+                Starts Here
+            </h1>
+
+
+            <p class="hero-description">
+
+                Research across your PDFs and the web.
+
+                Get clear, concise answers with
+                source and page citations.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <!-- PDF FILE PICKER -->
+
+                <input
+                    type="file"
+                    id="pdfUpload"
+                    accept=".pdf"
+                    multiple
+                    hidden
+                >
+
+
+                <label
+                    for="pdfUpload"
+                    class="primary-button"
+                >
+                    Upload PDFs
+                </label>
+
+
+                <a
+                    href="#research"
+                    class="secondary-button"
+                >
+                    Start Research
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIGHT SIDE -->
+
+        <section
+            class="hero-right"
+            id="research"
+        >
+
+            <div class="research-card">
+
+
+                <h2>
+                    Ask Your Research Question
+                </h2>
+
+
+                <p class="research-description">
+
+                    Choose a research source,
+                    enter your question and let the
+                    AI Research Agent find the answer.
+
+                </p>
+
+
+                <textarea
+                    id="question"
+                    placeholder="What would you like to research?"
+                ></textarea>
+
+
+
+                <!-- SOURCE OPTIONS -->
+
+                <div class="source-options">
+
+
+                    <button
+                        type="button"
+                        class="source-button active"
+                        data-source="pdf"
+                    >
+                        PDF
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="source-button"
+                        data-source="web"
+                    >
+                        Web
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="source-button"
+                        data-source="both"
+                    >
+                        PDF + Web
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- ACTUAL RESEARCH BUTTON -->
+
+                <button
+                    type="button"
+                    id="researchButton"
+                    class="research-button"
+                >
+                    Research
+                </button>
+
+
+
+                <!-- LIVE ANSWER AREA -->
+
+                <div class="live-answer">
+
+                    <div class="answer-header">
+
+                        <h3>
+                            Research Answer
+                        </h3>
+
+                        <span class="answer-status">
+                            Ready
+                        </span>
+
+                    </div>
+
+
+                    <p id="answer">
+
+                        Your research answer will
+                        appear here.
+
+                    </p>
+
+
+                    <div
+                        id="sources"
+                        class="live-sources"
+                    ></div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         FEATURES
+    ========================== -->
+
+    <section
+        class="features-section"
+        id="features"
+    >
+
+        <p class="section-label">
+            Key Features
+        </p>
+
+
+        <h2>
+            A Focused AI Research Assistant
+        </h2>
+
+
+        <p class="section-description">
+
+            Search documents, research the web
+            and receive answers supported by
+            clear sources.
+
+        </p>
+
+
+
+        <div class="feature-grid">
+
+
+            <!-- PDF RESEARCH -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    PDF
+                </div>
+
+
+                <h3>
+                    PDF Research
+                </h3>
+
+
+                <p>
+
+                    Search your PDF documents
+                    and retrieve the most relevant
+                    information for your question.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- WEB RESEARCH -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    WEB
+                </div>
+
+
+                <h3>
+                    Web Research
+                </h3>
+
+
+                <p>
+
+                    Research current information
+                    from the web using reliable
+                    online sources.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- CITATIONS -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    SRC
+                </div>
+
+
+                <h3>
+                    Source Citations
+                </h3>
+
+
+                <p>
+
+                    Receive source names and
+                    page numbers so you can trace
+                    where the information came from.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         HOW IT WORKS
+    ========================== -->
+
+    <section
+        class="how-section"
+        id="how-it-works"
+    >
+
+        <div class="how-heading">
+
+            <p class="section-label">
+                How It Works
+            </p>
+
+
+            <h2>
+                Research in Three Simple Steps
+            </h2>
+
+
+            <p>
+
+                The system handles retrieval,
+                research and answer generation
+                behind the scenes.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="steps-grid">
+
+
+            <!-- STEP 1 -->
+
+            <div class="step-card">
+
+                <span class="step-number">
+                    01
+                </span>
+
+
+                <h3>
+                    Choose Your Source
+                </h3>
+
+
+                <p>
+
+                    Select PDF, Web,
+                    or PDF + Web depending
+                    on what you want to research.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- STEP 2 -->
+
+            <div class="step-card">
+
+                <span class="step-number">
+                    02
+                </span>
+
+
+                <h3>
+                    Ask Your Question
+                </h3>
+
+
+                <p>
+
+                    Enter your research question
+                    in natural language and start
+                    the research process.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- STEP 3 -->
+
+            <div class="step-card">
+
+                <span class="step-number">
+                    03
+                </span>
+
+
+                <h3>
+                    Get a Grounded Answer
+                </h3>
+
+
+                <p>
+
+                    Receive a concise answer
+                    together with relevant
+                    source information and citations.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         DEMO EXAMPLE
+    ========================== -->
+
+    <section class="example-section">
+
+
+        <div class="example-left">
+
+            <p class="section-label">
+                Demo Example
+            </p>
+
+
+            <h2>
+                See the Research Agent
+                in Action
+            </h2>
+
+
+            <p>
+
+                This example shows how a
+                source-grounded answer can
+                appear after research.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="answer-card">
+
+
+            <span class="demo-label">
+                DEMO DATA
+            </span>
+
+
+            <h3>
+                Question
+            </h3>
+
+
+            <p>
+
+                What is the main purpose
+                of the Detect AI project?
+
+            </p>
+
+
+
+            <h3>
+                Answer
+            </h3>
+
+
+            <p>
+
+                The Detect AI project focuses
+                on distinguishing human-written
+                text from AI-generated text
+                using machine learning methods.
+
+            </p>
+
+
+
+            <div class="citation">
+
+                Detect AI.pdf — Page 1
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section
+        class="about-section"
+        id="about"
+    >
+
+        <div class="about-content">
+
+
+            <p class="section-label">
+                About
+            </p>
+
+
+            <h2>
+                About AI Research Agent
+            </h2>
+
+
+            <p>
+
+                AI Research Agent is a
+                research-focused application
+                designed to answer questions
+                using PDF documents, web research,
+                or both.
+
+            </p>
+
+
+            <p>
+
+                It combines information retrieval
+                with AI-generated answers while
+                providing source and page citations
+                for document-based research.
+
+            </p>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script src="/static/script.js"></script>
+
+
+</body>
+
+</html>
