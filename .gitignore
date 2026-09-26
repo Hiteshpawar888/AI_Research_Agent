@@ -4,3 +4,8 @@ __pycache__/
 .venv/
 .vscode/
 chroma_DB/
+
+# Local PDFs and evaluation files
+uploads/
+Evaluation/
+*.pdf
