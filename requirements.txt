@@ -1,2 +1,10 @@
 openai
+python-dotenvopenai
 python-dotenv
+fastapi
+uvicorn
+jinja2
+python-multipart
+pypdf
+chromadb
+sentence-transformers
