@@ -20,6 +20,9 @@ const pdfUpload =
 const answerStatus =
     document.querySelector(".answer-status");
 
+const loadingIndicator =
+    document.getElementById("loadingIndicator");
+
 
 // ==========================================
 // DEFAULT SOURCE
@@ -222,8 +225,11 @@ researchButton.addEventListener(
 
         if (question === "") {
 
-            answerBox.textContent =
-                "Please enter a research question.";
+            answerBox.textContent = "";
+
+            if (loadingIndicator) {
+                loadingIndicator.hidden = false;
+            }
 
             return;
         }
@@ -331,6 +337,10 @@ researchButton.addEventListener(
 
         finally {
 
+                if (loadingIndicator) {
+                    loadingIndicator.hidden = true;
+                }
+
             researchButton.disabled = false;
 
             researchButton.textContent =
@@ -361,3 +371,139 @@ questionInput.addEventListener(
 
     }
 );
+
+// ==========================================
+// COPY ANSWER
+// ==========================================
+
+function copyAnswerText() {
+
+    const answer =
+        document.getElementById("answer");
+
+    const button =
+        document.getElementById("copyAnswerButton");
+
+    const text =
+        answer.innerText.trim();
+
+    if (!text) {
+        return;
+    }
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+
+    textarea.setSelectionRange(
+        0,
+        textarea.value.length
+    );
+
+    document.execCommand("copy");
+
+    document.body.removeChild(textarea);
+
+    button.textContent = "✓ Copied";
+
+    setTimeout(() => {
+
+        button.textContent =
+            "Copy Answer";
+
+    }, 1500);
+}
+
+// ==========================================
+// QUESTION PLACEHOLDER TYPING EFFECT
+// ==========================================
+
+const typingQuestions = [
+    "Ask a question about your PDFs...",
+    "Summarise the key findings...",
+    "What risks are discussed in this document?",
+    "Compare information across my PDFs...",
+    "Research this topic using PDF + Web..."
+];
+
+let typingQuestionIndex = 0;
+let typingCharacterIndex = 0;
+let typingDeleting = false;
+
+
+function animateQuestionPlaceholder() {
+
+    const currentText =
+        typingQuestions[typingQuestionIndex];
+
+    if (!typingDeleting) {
+
+        typingCharacterIndex++;
+
+        questionInput.placeholder =
+            currentText.substring(
+                0,
+                typingCharacterIndex
+            );
+
+        if (
+            typingCharacterIndex ===
+            currentText.length
+        ) {
+
+            typingDeleting = true;
+
+            setTimeout(
+                animateQuestionPlaceholder,
+                1500
+            );
+
+            return;
+        }
+
+    }
+
+    else {
+
+        typingCharacterIndex--;
+
+        questionInput.placeholder =
+            currentText.substring(
+                0,
+                typingCharacterIndex
+            );
+
+        if (typingCharacterIndex === 0) {
+
+            typingDeleting = false;
+
+            typingQuestionIndex =
+                (
+                    typingQuestionIndex + 1
+                ) %
+                typingQuestions.length;
+
+        }
+
+    }
+
+
+    const typingSpeed =
+        typingDeleting
+            ? 35
+            : 65;
+
+
+    setTimeout(
+        animateQuestionPlaceholder,
+        typingSpeed
+    );
+}
+
+
+animateQuestionPlaceholder();

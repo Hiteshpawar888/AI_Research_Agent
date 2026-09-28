@@ -1,5 +1,6 @@
+from urllib import request
+import uuid
 from pathlib import Path
-
 from fastapi import FastAPI, Request, UploadFile, File
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -56,11 +57,24 @@ class ResearchRequest(BaseModel):
 @app.get("/")
 def home(request: Request):
 
-    return templates.TemplateResponse(
+    session_id = request.cookies.get("session_id")
+
+    if not session_id:
+        session_id = str(uuid.uuid4())
+
+    response = templates.TemplateResponse(
         request=request,
         name="index.html",
         context={}
     )
+
+    response.set_cookie(
+        key="session_id",
+        value=session_id,
+        httponly=True
+    )
+
+    return response
 
 
 # =====================================================
@@ -69,17 +83,38 @@ def home(request: Request):
 
 @app.post("/upload")
 async def upload_pdfs(
+    request: Request,
     files: list[UploadFile] = File(...)
 ):
 
     uploaded_files = []
+    
+    # Maximum number of PDFs allowed per upload
+    max_files = 10
 
-    upload_folder = Path("uploads")
+    if len(files) > max_files:
+
+        return {
+            "success": False,
+            "message": f"You can upload a maximum of {max_files} PDF files at a time."
+        }
+
+    session_id = request.cookies.get("session_id")
+
+    if not session_id:
+        return {
+            "success": False,
+            "message": "Session not found. Please refresh the page."
+        }
+
+    upload_folder = Path("uploads") / session_id
 
     upload_folder.mkdir(
+        parents=True,
         exist_ok=True
     )
-
+    
+    file_path = None
 
     try:
 
@@ -88,15 +123,43 @@ async def upload_pdfs(
             # Skip non-PDF files
             if not file.filename.lower().endswith(".pdf"):
                 continue
+            # Keep only the real filename
+            safe_filename = Path(file.filename).name
 
 
             # -----------------------------------------
             # SAVE PDF
             # -----------------------------------------
 
-            file_path = upload_folder / file.filename
+            file_path = upload_folder / safe_filename
+            
+            # Prevent duplicate PDF uploads
+            if file_path.exists():
+
+                return {
+                    "success": False,
+                    "message": f"{safe_filename} has already been uploaded."
+                }
 
             file_content = await file.read()
+            
+            # Maximum PDF size: 20 MB
+            max_file_size = 20 * 1024 * 1024
+
+            if len(file_content) > max_file_size:
+
+                return {
+                    "success": False,
+                    "message": f"{safe_filename} is too large. Maximum file size is 20 MB."
+                }
+            
+            # Validate that the file is actually a PDF
+            if not file_content.startswith(b"%PDF-"):
+
+                return {
+                    "success": False,
+                    "message": f"{safe_filename} is not a valid PDF file."
+                }
 
 
             with open(file_path, "wb") as saved_file:
@@ -113,6 +176,19 @@ async def upload_pdfs(
             _, page_texts = read_pdf(
                 str(file_path)
             )
+            
+            # Maximum number of pages allowed per PDF
+            max_pages = 300
+
+            if len(page_texts) > max_pages:
+
+                if file_path.exists():
+                    file_path.unlink()
+
+                return {
+                    "success": False,
+                    "message": f"{safe_filename} has too many pages. Maximum allowed is {max_pages} pages."
+                }
 
 
             # -----------------------------------------
@@ -130,13 +206,14 @@ async def upload_pdfs(
 
             store_chunks(
                 chunks,
-                file.filename,
-                page_metadatas
+                safe_filename,
+                page_metadatas,
+                session_id
             )
 
 
             uploaded_files.append(
-                file.filename
+                safe_filename
             )
 
 
@@ -159,10 +236,13 @@ async def upload_pdfs(
 
     except Exception as e:
 
+        # Remove unreadable or partially processed PDF
+        if file_path and file_path.exists():
+            file_path.unlink()
+
         return {
             "success": False,
-            "message":
-                f"PDF processing failed: {e}"
+            "message": f"PDF processing failed: {e}"
         }
 
 
@@ -171,7 +251,16 @@ async def upload_pdfs(
 # =====================================================
 
 @app.post("/ask")
-def ask_question(data: ResearchRequest):
+def ask_question(data: ResearchRequest, request: Request):
+    
+     # Get current user's session ID
+    session_id = request.cookies.get("session_id")
+
+    if not session_id:
+
+        return {
+            "answer": "Session not found. Please refresh the page."
+        }
 
     question = data.question.strip()
 
@@ -210,14 +299,10 @@ def ask_question(data: ResearchRequest):
     # FIND ALL PDF FILES
     # =================================================
 
-    pdf_files = (
-        list(
-            Path(".").glob("*.pdf")
-        )
-        +
-        list(
-            Path("uploads").glob("*.pdf")
-        )
+    user_upload_folder = Path("uploads") / session_id
+
+    pdf_files = list(
+        user_upload_folder.glob("*.pdf")
     )
 
 
@@ -249,7 +334,8 @@ def ask_question(data: ResearchRequest):
             # -----------------------------------------
 
             if not is_document_indexed(
-                pdf_file.name
+                pdf_file.name,
+                session_id
             ):
 
                 _, page_texts = read_pdf(
@@ -265,7 +351,8 @@ def ask_question(data: ResearchRequest):
                 store_chunks(
                     chunks,
                     pdf_file.name,
-                    page_metadatas
+                    page_metadatas,
+                    session_id
                 )
 
 
@@ -277,6 +364,7 @@ def ask_question(data: ResearchRequest):
                 retrieve_relevant_chunks(
                     question,
                     source_name=pdf_file.name,
+                    session_id=session_id,
                     top_k=3
                 )
             )

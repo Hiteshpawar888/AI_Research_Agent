@@ -4,6 +4,8 @@ from document_reader import read_pdf, chunk_pages
 from retriever import retrieve_relevant_chunks
 from prompt_builder import build_rag_prompt
 from vector_store import store_chunks, is_document_indexed
+# Local CLI session used by ChromaDB
+SESSION_ID = "local-session"
 
 def run_combined_research(question):
     """Research using selected PDFs together with live web search."""
@@ -54,7 +56,10 @@ def run_combined_research(question):
         file_path = str(pdf_file)
 
         try:
-            if is_document_indexed(file_path):
+            if is_document_indexed(
+                file_path,
+                SESSION_ID
+            ):
                 print(
                     f"{pdf_file.name} already indexed. "
                     "Skipping embedding process."
@@ -70,7 +75,8 @@ def run_combined_research(question):
                 store_chunks(
                     chunks,
                     file_path,
-                    page_metadatas
+                    page_metadatas,
+                    SESSION_ID
                 )
 
                 print(
@@ -98,6 +104,7 @@ def run_combined_research(question):
         chunks, metadatas, distances = retrieve_relevant_chunks(
             question,
             str(pdf_file),
+            session_id=SESSION_ID,
             top_k=2
         )
 
@@ -304,7 +311,10 @@ def run_pdf_research(question=None):
         file_path = str(pdf_file)
 
         try:
-            if is_document_indexed(file_path):
+            if is_document_indexed(
+                file_path,
+                SESSION_ID
+            ):
                 print(
                     f"{pdf_file.name} already indexed. "
                     "Skipping embedding process."
@@ -320,7 +330,8 @@ def run_pdf_research(question=None):
                 store_chunks(
                     chunks,
                     file_path,
-                    page_metadatas
+                    page_metadatas,
+                    SESSION_ID
                 )
 
                 print(
@@ -343,52 +354,127 @@ def run_pdf_research(question=None):
         return
 
         # Step 5: Retrieve relevant chunks from every selected PDF
-    all_relevant_chunks = []
-    all_metadatas = []
-    all_distances = []
+
+    best_results_per_pdf = []
+    extra_results = []
+
 
     for pdf_file in selected_files:
 
         try:
+
             relevant_chunks, metadatas, distances = retrieve_relevant_chunks(
                 question,
                 str(pdf_file),
-                top_k=3
+                session_id=SESSION_ID,
+                top_k=2
             )
 
-            all_relevant_chunks.extend(relevant_chunks)
-            all_metadatas.extend(metadatas)
-            all_distances.extend(distances)
+
+            pdf_results = list(
+                zip(
+                    relevant_chunks,
+                    metadatas,
+                    distances
+                )
+            )
+
+
+            if not pdf_results:
+                continue
+
+
+            # Best result from this PDF must be included
+            pdf_results.sort(
+                key=lambda item: item[2]
+            )
+
+            best_results_per_pdf.append(
+                pdf_results[0]
+            )
+
+
+            # Keep remaining result as optional extra context
+            extra_results.extend(
+                pdf_results[1:]
+            )
+
 
         except Exception as e:
-            print(f"Retrieval failed for {pdf_file.name}: {e}")
+
+            print(
+                f"Retrieval failed for {pdf_file.name}: {e}"
+            )
+
             return
 
-        if not all_relevant_chunks:
-            print("No relevant document content was found.")
-            return
 
+    # No useful results found
+    if not best_results_per_pdf:
 
-    # Step 5.1: Mixed ranking across all selected PDFs
-    combined_results = list(
-        zip(
-            all_relevant_chunks,
-            all_metadatas,
-            all_distances
+        print(
+            "No relevant document content was found."
         )
-    )
 
-    combined_results.sort(
+        return
+
+
+    # Sort additional chunks globally
+    extra_results.sort(
         key=lambda item: item[2]
     )
 
-    top_results = combined_results[:3]
-    
-    print("\n--- Top Mixed-Ranking Results ---")
 
-    for rank, (chunk, metadata, distance) in enumerate(top_results, start=1):
-        source = metadata.get("source", "Unknown source")
-        page = metadata.get("page", "Unknown")
+    # Always include at least one chunk from every selected PDF
+    top_results = best_results_per_pdf.copy()
+
+
+    # Add extra high-quality chunks,
+    # up to 6 total context chunks
+    max_context_chunks = 6
+
+    remaining_slots = (
+        max_context_chunks - len(top_results)
+    )
+
+
+    if remaining_slots > 0:
+
+        top_results.extend(
+            extra_results[:remaining_slots]
+        )
+
+
+    # Sort final context by relevance
+    top_results.sort(
+        key=lambda item: item[2]
+    )
+
+
+    print(
+        "\n--- Multi-PDF Retrieval Results ---"
+    )
+
+
+    for rank, (
+        chunk,
+        metadata,
+        distance
+    ) in enumerate(
+        top_results,
+        start=1
+    ):
+
+        source = metadata.get(
+            "source",
+            "Unknown source"
+        )
+
+        page = metadata.get(
+            "page",
+            "Unknown"
+        )
+
 
         print(
             f"{rank}. Source: {source} | "
@@ -396,14 +482,18 @@ def run_pdf_research(question=None):
             f"Distance: {distance:.4f}"
         )
 
+
+    # Prepare chunks for the RAG prompt
     all_relevant_chunks = [
-        item[0] for item in top_results
+        item[0]
+        for item in top_results
     ]
+
 
     all_metadatas = [
-        item[1] for item in top_results
+        item[1]
+        for item in top_results
     ]
-
     # Step 6: Build one combined RAG prompt
     prompt = build_rag_prompt(
         question,

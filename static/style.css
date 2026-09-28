@@ -1036,3 +1036,1485 @@ a {
         font-size: 31px;
     }
 }
+
+/* ==========================================
+   PROFESSIONAL COPY ANSWER BUTTON
+========================================== */
+
+#copyAnswerButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 18px;
+    padding: 10px 16px;
+
+    min-height: 40px;
+
+    background: #ffffff;
+    color: #1f2937;
+
+    border: 1px solid #dbe3ef;
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 2px 6px rgba(15, 23, 42, 0.05);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+/* Small copy icon */
+#copyAnswerButton::before {
+    content: "⧉";
+
+    font-size: 16px;
+    font-weight: 500;
+
+    color: #64748b;
+
+    transition: color 0.2s ease;
+}
+
+
+/* Hover */
+#copyAnswerButton:hover {
+    background: #f8fbff;
+
+    color: #2563eb;
+
+    border-color: #93b4f5;
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.10);
+
+    transform: translateY(-1px);
+}
+
+
+#copyAnswerButton:hover::before {
+    color: #2563eb;
+}
+
+
+/* Click */
+#copyAnswerButton:active {
+    transform: translateY(0);
+
+    box-shadow:
+        0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+
+/* Keyboard focus */
+#copyAnswerButton:focus-visible {
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+/* Move left hero content slightly upward */
+.hero-left {
+    transform: translateY(-120px);
+}
+/* ==========================================
+   HERO SECTION POLISH
+========================================== */
+
+/* Main heading - slightly cleaner */
+.hero-left h1 {
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+}
+
+
+/* Hero description - more breathing space */
+.hero-description {
+    line-height: 1.7;
+    max-width: 560px;
+    margin-top: 22px;
+}
+
+
+/* Buttons spacing */
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 30px;
+}
+
+
+/* Main upload button */
+.primary-button {
+    padding: 13px 24px;
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.18);
+}
+
+
+/* Secondary button */
+.secondary-button {
+    padding: 13px 22px;
+    border-radius: 10px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.secondary-button:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Right research card - softer professional shadow */
+.research-card {
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.08),
+        0 4px 12px rgba(15, 23, 42, 0.04);
+
+    border: 1px solid rgba(226, 232, 240, 0.9);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Very subtle lift */
+.research-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 22px 50px rgba(15, 23, 42, 0.10),
+        0 6px 16px rgba(15, 23, 42, 0.05);
+}
+
+/* ==========================================
+   FINAL HERO UI POLISH
+========================================== */
+
+
+/* Trust badges below hero description */
+.hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+
+.hero-trust span {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 7px 11px;
+
+    background: rgba(255, 255, 255, 0.72);
+
+    border: 1px solid #e3e9f2;
+    border-radius: 999px;
+
+    color: #475569;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+
+/* Research card breathing space */
+.research-card {
+    padding: 34px;
+}
+
+
+/* Better textarea feel */
+#question {
+    line-height: 1.6;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+#question:focus {
+    outline: none;
+
+    border-color: #7aa2f7;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+
+/* ==========================================
+   LOADING INDICATOR
+========================================== */
+
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 18px 0;
+
+    padding: 14px 16px;
+
+    background: #f8fbff;
+
+    border: 1px solid #e2eaf5;
+    border-radius: 10px;
+
+    color: #475569;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.loading-indicator[hidden] {
+    display: none;
+}
+
+
+.loading-spinner {
+    width: 18px;
+    height: 18px;
+
+    border: 2px solid #dbe5f4;
+    border-top-color: #2563eb;
+
+    border-radius: 50%;
+
+    animation: researchSpin 0.8s linear infinite;
+}
+
+
+@keyframes researchSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* Better answer spacing */
+#answer {
+    line-height: 1.7;
+}
+
+
+#answer h1,
+#answer h2,
+#answer h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+#answer ul,
+#answer ol {
+    padding-left: 22px;
+}
+
+
+#answer li {
+    margin-bottom: 7px;
+}
+
+/* ==========================================
+   PREMIUM HERO MOTION
+========================================== */
+
+
+/* Soft animated background glow */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    top: -180px;
+    left: -140px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.16),
+            rgba(59, 130, 246, 0)
+        );
+
+    border-radius: 50%;
+
+    animation: heroGlowMove 8s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+
+/* Second glow */
+.hero-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 460px;
+    height: 460px;
+
+    right: -120px;
+    bottom: -180px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(99, 102, 241, 0.13),
+            rgba(99, 102, 241, 0)
+        );
+
+    border-radius: 50%;
+
+    animation: heroGlowMoveTwo 10s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+
+/* Keep content above glow */
+.hero-left,
+.hero-right {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ==========================================
+   RESEARCH CARD FLOAT
+========================================== */
+
+.research-card {
+    animation:
+        researchCardFloat 5s ease-in-out infinite;
+}
+
+
+@keyframes researchCardFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+
+/* ==========================================
+   HERO ENTRANCE
+========================================== */
+
+.hero-left h1 {
+    animation:
+        heroTextEnter 0.8s ease-out both;
+}
+
+
+.hero-description {
+    animation:
+        heroTextEnter 0.9s ease-out 0.1s both;
+}
+
+
+.hero-trust {
+    animation:
+        heroTextEnter 1s ease-out 0.2s both;
+}
+
+
+.hero-buttons {
+    animation:
+        heroTextEnter 1.1s ease-out 0.3s both;
+}
+
+
+@keyframes heroTextEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==========================================
+   PREMIUM RESEARCH BUTTON
+========================================== */
+
+.research-button {
+    position: relative;
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(79, 70, 229, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.research-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 35px rgba(79, 70, 229, 0.32);
+}
+
+
+/* Moving shine across button */
+.research-button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 60%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 255, 255, 0.35),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    animation:
+        researchButtonShine 4s ease-in-out infinite;
+}
+
+
+@keyframes researchButtonShine {
+
+    0% {
+        left: -120%;
+    }
+
+    55% {
+        left: 140%;
+    }
+
+    100% {
+        left: 140%;
+    }
+}
+
+
+/* ==========================================
+   TRUST BADGE MICRO MOTION
+========================================== */
+
+.hero-trust span {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.hero-trust span:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+
+/* ==========================================
+   BACKGROUND ANIMATION
+========================================== */
+
+@keyframes heroGlowMove {
+
+    from {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate(90px, 60px)
+            scale(1.12);
+    }
+}
+
+
+@keyframes heroGlowMoveTwo {
+
+    from {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate(-80px, -50px)
+            scale(1.15);
+    }
+}
+
+
+/* ==========================================
+   ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .research-card,
+    .hero-left h1,
+    .hero-description,
+    .hero-trust,
+    .hero-buttons,
+    .research-button::before,
+    .hero-section::before,
+    .hero-section::after {
+        animation: none;
+    }
+}
+
+/* =====================================================
+   FINAL PREMIUM MOTION SYSTEM
+   AI RESEARCH AGENT
+===================================================== */
+
+
+/* =====================================================
+   HERO BACKGROUND - PREMIUM LIVE FEEL
+===================================================== */
+
+.hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+
+/* Keep content above animated background */
+.hero-left,
+.hero-right {
+    position: relative;
+    z-index: 5;
+}
+
+
+/* Animated grid/light texture */
+.hero-section {
+    background-image:
+        linear-gradient(
+            rgba(59, 130, 246, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(59, 130, 246, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 42px 42px;
+
+    animation:
+        premiumGridMove 18s linear infinite;
+}
+
+
+@keyframes premiumGridMove {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 42px 42px;
+    }
+}
+
+
+/* =====================================================
+   RESEARCH CARD
+===================================================== */
+
+.hero-right .research-card {
+    animation:
+        premiumResearchFloat 6s ease-in-out infinite;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.10),
+        0 8px 28px rgba(37, 99, 235, 0.07);
+}
+
+
+@keyframes premiumResearchFloat {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -7px;
+    }
+}
+
+
+/* =====================================================
+   QUESTION BOX - LIVE / ACTIVE FEEL
+===================================================== */
+
+#question {
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+#question:hover {
+    border-color: #93c5fd;
+}
+
+
+#question:focus {
+    transform: translateY(-2px);
+
+    border-color: #3b82f6;
+
+    box-shadow:
+        0 0 0 4px rgba(59, 130, 246, 0.09),
+        0 10px 28px rgba(37, 99, 235, 0.07);
+}
+
+
+/* =====================================================
+   PDF / WEB / PDF + WEB
+===================================================== */
+
+.source-options {
+    padding: 5px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(248, 250, 252, 0.90);
+
+    border:
+        1px solid #e2e8f0;
+}
+
+
+.source-button {
+    position: relative;
+
+    transition:
+        transform 0.22s ease,
+        background 0.22s ease,
+        color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+
+.source-button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.02);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.10);
+}
+
+
+.source-button.active {
+    color: #ffffff;
+
+    border-color: transparent;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    box-shadow:
+        0 8px 22px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =====================================================
+   RESEARCH BUTTON
+===================================================== */
+
+.research-button {
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+
+.research-button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.01);
+
+    box-shadow:
+        0 16px 38px rgba(37, 99, 235, 0.30);
+}
+
+
+/* Moving light through Research button */
+.research-button::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -130%;
+
+    width: 60%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent,
+            rgba(255, 255, 255, 0.38),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    animation:
+        premiumResearchShine 4.5s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+@keyframes premiumResearchShine {
+
+    0%,
+    60% {
+        left: -130%;
+    }
+
+    100% {
+        left: 160%;
+    }
+}
+
+
+/* =====================================================
+   FEATURE CARDS
+===================================================== */
+
+.feature-card {
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* Top animated line */
+.feature-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    width: 0;
+    height: 3px;
+
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            #6366f1,
+            #8b5cf6
+        );
+
+    transition:
+        width 0.35s ease;
+}
+
+
+.feature-card:hover {
+    transform:
+        translateY(-10px)
+        scale(1.015);
+
+    border-color:
+        rgba(59, 130, 246, 0.28);
+
+    box-shadow:
+        0 22px 50px rgba(37, 99, 235, 0.11);
+}
+
+
+.feature-card:hover::before {
+    width: 100%;
+}
+
+
+.feature-card:hover .feature-icon {
+    transform:
+        translateY(-4px)
+        rotate(-4deg)
+        scale(1.08);
+}
+
+
+.feature-icon {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+
+.how-section {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(59, 130, 246, 0.09),
+            transparent 42%
+        ),
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #ffffff,
+            #f5f3ff
+        );
+}
+
+
+/* Moving glow behind cards */
+.how-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 340px;
+    height: 340px;
+
+    top: -180px;
+    left: -100px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(59, 130, 246, 0.10);
+
+    filter: blur(70px);
+
+    animation:
+        howGlowMove 10s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+
+@keyframes howGlowMove {
+
+    from {
+        transform:
+            translate(0, 0);
+    }
+
+    to {
+        transform:
+            translate(180px, 80px);
+    }
+}
+
+
+.how-heading,
+.steps-grid {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =====================================================
+   HOW IT WORKS - THREE DIFFERENT MOTIONS
+===================================================== */
+
+.step-card {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* Choose Your Source */
+.step-card:nth-child(1) {
+    animation:
+        stepOneMotion 6s ease-in-out infinite;
+}
+
+
+/* Ask Your Question */
+.step-card:nth-child(2) {
+    animation:
+        stepTwoMotion 7s ease-in-out infinite;
+}
+
+
+/* Get a Grounded Answer */
+.step-card:nth-child(3) {
+    animation:
+        stepThreeMotion 6.5s ease-in-out infinite;
+}
+
+
+@keyframes stepOneMotion {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -5px;
+    }
+}
+
+
+@keyframes stepTwoMotion {
+
+    0%,
+    100% {
+        translate: 0 -2px;
+    }
+
+    50% {
+        translate: 0 4px;
+    }
+}
+
+
+@keyframes stepThreeMotion {
+
+    0%,
+    100% {
+        translate: 0 2px;
+    }
+
+    50% {
+        translate: 0 -5px;
+    }
+}
+
+
+/* Mouse touch / hover motion */
+.step-card:hover {
+    animation-play-state: paused;
+
+    transform:
+        translateY(-10px)
+        scale(1.025);
+
+    border-color:
+        rgba(59, 130, 246, 0.32);
+
+    box-shadow:
+        0 24px 55px rgba(37, 99, 235, 0.12);
+}
+
+
+/* Glow inside card */
+.step-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    right: -90px;
+    bottom: -90px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(59, 130, 246, 0.08);
+
+    filter: blur(16px);
+
+    transition:
+        transform 0.4s ease;
+}
+
+
+.step-card:hover::after {
+    transform:
+        scale(1.8);
+}
+
+
+/* Step number animation */
+.step-number {
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.step-card:hover .step-number {
+    transform:
+        rotate(-8deg)
+        scale(1.12);
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =====================================================
+   DEMO EXAMPLE SECTION
+===================================================== */
+
+.example-section {
+    position: relative;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+/* Demo card */
+.answer-card {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(248, 250, 255, 0.96)
+        );
+
+    border:
+        1px solid rgba(191, 219, 254, 0.80);
+
+    box-shadow:
+        0 25px 65px rgba(15, 23, 42, 0.10),
+        0 8px 24px rgba(37, 99, 235, 0.06);
+
+    animation:
+        demoCardFloat 6s ease-in-out infinite;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+@keyframes demoCardFloat {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -6px;
+    }
+}
+
+
+.answer-card:hover {
+    animation-play-state: paused;
+
+    transform:
+        translateY(-6px)
+        scale(1.01);
+
+    box-shadow:
+        0 30px 75px rgba(37, 99, 235, 0.14);
+}
+
+
+/* Animated colour glow */
+.answer-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    top: -140px;
+    right: -100px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(59, 130, 246, 0.16),
+            rgba(139, 92, 246, 0.12)
+        );
+
+    filter: blur(30px);
+
+    animation:
+        demoGlow 7s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+
+@keyframes demoGlow {
+
+    from {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate(-60px, 70px)
+            scale(1.25);
+    }
+}
+
+
+.answer-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* Demo badge */
+.demo-label {
+    animation:
+        demoBadgePulse 3s ease-in-out infinite;
+}
+
+
+@keyframes demoBadgePulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 rgba(245, 158, 11, 0);
+    }
+
+    50% {
+        box-shadow:
+            0 0 18px rgba(245, 158, 11, 0.18);
+    }
+}
+
+
+/* Citation hover */
+.citation {
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+
+.citation:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =====================================================
+   ABOUT SECTION
+===================================================== */
+
+.about-section {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #172554,
+            #1e1b4b
+        );
+
+    background-size:
+        200% 200%;
+
+    animation:
+        aboutGradientMove 10s ease infinite;
+
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.20);
+}
+
+
+@keyframes aboutGradientMove {
+
+    0% {
+        background-position:
+            0% 50%;
+    }
+
+    50% {
+        background-position:
+            100% 50%;
+    }
+
+    100% {
+        background-position:
+            0% 50%;
+    }
+}
+
+
+/* About floating glow */
+.about-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    top: -170px;
+    left: -100px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(59, 130, 246, 0.22);
+
+    filter:
+        blur(70px);
+
+    animation:
+        aboutGlowOne 9s ease-in-out infinite alternate;
+}
+
+
+.about-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    right: -100px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(139, 92, 246, 0.20);
+
+    filter:
+        blur(70px);
+
+    animation:
+        aboutGlowTwo 11s ease-in-out infinite alternate;
+}
+
+
+@keyframes aboutGlowOne {
+
+    to {
+        transform:
+            translate(160px, 80px);
+    }
+}
+
+
+@keyframes aboutGlowTwo {
+
+    to {
+        transform:
+            translate(-130px, -70px);
+    }
+}
+
+
+.about-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =====================================================
+   HERO TRUST BADGES
+===================================================== */
+
+.hero-trust span {
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.hero-trust span:hover {
+    transform:
+        translateY(-4px)
+        scale(1.025);
+
+    border-color:
+        rgba(59, 130, 246, 0.40);
+
+    box-shadow:
+        0 10px 24px rgba(37, 99, 235, 0.11);
+}
+
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-section,
+    .hero-right .research-card,
+    .research-button::after,
+    .step-card,
+    .answer-card,
+    .answer-card::before,
+    .demo-label,
+    .about-section,
+    .about-section::before,
+    .about-section::after,
+    .how-section::before {
+        animation: none !important;
+    }
+}
+
+
+/* =====================================================
+   MOBILE - REDUCE HEAVY MOTION
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .hero-section {
+        animation: none;
+    }
+
+    .hero-right .research-card,
+    .step-card,
+    .answer-card {
+        animation: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

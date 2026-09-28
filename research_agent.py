@@ -4,7 +4,11 @@ from openai import OpenAI
 from config import get_api_key
 
 
-client = OpenAI(api_key=get_api_key())
+client = OpenAI(
+    api_key=get_api_key(),
+    timeout=60.0,
+    max_retries=2
+)
 
 
 def generate_answer(question):
@@ -44,7 +48,8 @@ Requirements:
         return response.output_text
 
     except Exception as e:
-        return f"Research failed: {e}"
+        print(f"[Web Research Error] {e}")
+        return "Research failed. Please try again."
 
 
 def generate_rag_answer(prompt):
@@ -90,7 +95,8 @@ def generate_rag_answer(prompt):
         return response.output_text
 
     except Exception as e:
-        return f"RAG research failed: {e}"
+        print(f"[RAG Research Error] {e}")
+        return "Document research failed. Please try again."
 
 
 def verify_rag_answer(answer, relevant_chunks, metadatas):
@@ -168,7 +174,8 @@ Instructions:
         return response.output_text
 
     except Exception as e:
-        return f"Source verification failed: {e}"
+        print(f"[Verification Error] {e}")
+        return "Source verification failed. Please try again."
 
 
 def generate_combined_answer(prompt):
@@ -237,4 +244,5 @@ Additional response instructions:
         return response.output_text
 
     except Exception as e:
-        return f"Combined research failed: {e}"
+        print(f"[Combined Research Error] {e}")
+        return "Combined PDF and web research failed. Please try again."
