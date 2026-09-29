@@ -2505,6 +2505,234 @@ a {
     }
 }
 
+/* =====================================================
+   CENTERED HERO + RESEARCH CARD LAYOUT
+===================================================== */
+
+.hero-section {
+    width: 88%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+    align-items: start;
+
+    gap: 45px;
+
+    padding: 75px 0 95px;
+
+    min-height: auto;
+}
+
+
+/* =====================================================
+   HERO CONTENT CENTER
+===================================================== */
+
+.hero-left {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+    /* remove old upward movement */
+    transform: none !important;
+}
+
+
+.hero-left h1 {
+    max-width: 850px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: clamp(
+        50px,
+        6vw,
+        76px
+    );
+
+    line-height: 1.04;
+}
+
+
+.hero-description {
+    max-width: 680px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   TRUST BADGES CENTER
+===================================================== */
+
+.hero-trust {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =====================================================
+   HERO BUTTONS CENTER
+===================================================== */
+
+.hero-buttons {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 16px;
+}
+
+
+/* =====================================================
+   RESEARCH AREA BELOW HERO TEXT
+===================================================== */
+
+.hero-right {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+/* Main research card */
+.hero-right .research-card {
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+}
+
+
+/* =====================================================
+   QUESTION INPUT
+===================================================== */
+
+.research-card textarea {
+    width: 100%;
+
+    min-height: 150px;
+}
+
+
+/* =====================================================
+   LIVE ANSWER
+===================================================== */
+
+.live-answer {
+    width: 100%;
+}
+
+
+/* Let long answers grow naturally downward */
+#answer {
+    width: 100%;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 950px) {
+
+    .hero-section {
+        width: 90%;
+
+        padding-top: 55px;
+
+        gap: 35px;
+    }
+
+
+    .hero-left {
+        transform: none !important;
+    }
+
+
+    .hero-right .research-card {
+        max-width: 760px;
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .hero-section {
+        width: 92%;
+
+        padding:
+            45px 0
+            70px;
+
+        gap: 30px;
+    }
+
+
+    .hero-left h1 {
+        font-size: 44px;
+
+        line-height: 1.08;
+    }
+
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+
+    .hero-right .research-card {
+        max-width: 100%;
+
+        padding: 22px;
+    }
+
+
+    .hero-buttons {
+        width: 100%;
+    }
+
+
+    .hero-buttons .primary-button,
+    .hero-buttons .secondary-button {
+        flex: 1;
+
+        min-width: 140px;
+    }
+}
 
 
 
@@ -2518,3 +2746,162 @@ a {
 
 
 
+/* =====================================================
+   CENTERED HERO + RESEARCH LAYOUT
+===================================================== */
+
+.hero-section {
+    width: 88%;
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 45px;
+
+    padding: 70px 0 100px;
+
+    min-height: auto;
+}
+
+
+/* =====================================================
+   HERO TEXT CENTER
+===================================================== */
+
+.hero-left {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+    /* Remove old upward movement */
+    transform: none !important;
+}
+
+
+.hero-left h1 {
+    max-width: 850px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+}
+
+
+.hero-description {
+    max-width: 700px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   TRUST BADGES CENTER
+===================================================== */
+
+.hero-trust {
+    justify-content: center;
+}
+
+
+/* =====================================================
+   HERO BUTTONS CENTER
+===================================================== */
+
+.hero-buttons {
+    justify-content: center;
+}
+
+
+/* =====================================================
+   RESEARCH AREA BELOW HERO
+===================================================== */
+
+.hero-right {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+/* =====================================================
+   RESEARCH CARD
+===================================================== */
+
+.hero-right .research-card {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto;
+}
+
+
+/* =====================================================
+   QUESTION TITLE CENTER
+===================================================== */
+
+.research-card h2 {
+    text-align: center;
+}
+
+
+/* =====================================================
+   KEEP ANSWER CONTENT LEFT-ALIGNED
+===================================================== */
+
+.live-answer {
+    text-align: left;
+}
+
+
+#answer {
+    text-align: left;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .hero-section {
+        width: 92%;
+        padding: 45px 0 70px;
+        gap: 32px;
+    }
+
+
+    .hero-left h1 {
+        font-size: clamp(
+            42px,
+            11vw,
+            58px
+        );
+    }
+
+
+    .hero-right {
+        max-width: 100%;
+    }
+
+
+    .hero-right .research-card {
+        max-width: 100%;
+    }
+}
