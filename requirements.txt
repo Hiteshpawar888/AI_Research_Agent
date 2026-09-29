@@ -1,5 +1,4 @@
 openai
-python-dotenvopenai
 python-dotenv
 fastapi
 uvicorn
