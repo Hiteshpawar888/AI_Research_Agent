@@ -1,133 +1,157 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8fbff">
 
     <title>AI Research Agent</title>
 
-    <link
-        rel="stylesheet"
-        href="/static/style.css"
-    >
-
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/auth_ui.css">
 </head>
-
 
 <body>
 
-
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
+    <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
 
-        <a
-            href="#home"
-            class="logo premium-logo"
-            aria-label="AI Research Agent Home"
-        >
+        <a href="#home" class="logo premium-logo"
+           aria-label="AI Research Agent Home">
 
             <span class="logo-mark">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                >
-
+                <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path
                         d="M12 3L20 7.5V16.5L12 21L4 16.5V7.5L12 3Z"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="1.8"
                     />
-
                     <circle
-                        cx="12"
-                        cy="12"
-                        r="2.4"
+                        cx="12" cy="12" r="2.4"
                         fill="currentColor"
                     />
-
                     <path
                         d="M12 5.8V9.5M18 9L14.8 10.8M18 15L14.8 13.2M12 18.2V14.5M6 15L9.2 13.2M6 9L9.2 10.8"
                         stroke="currentColor"
                         stroke-width="1.4"
                         stroke-linecap="round"
                     />
-
                 </svg>
-
             </span>
 
             <span class="logo-text">
-                AI Research
-                <span>Agent</span>
+                AI Research <span>Agent</span>
             </span>
-
         </a>
 
 
-        <nav class="nav-links">
-
-            <a
-                href="#home"
-                class="nav-active"
-            >
-                Home
-            </a>
-
-            <a href="#features">
-                Features
-            </a>
-
-            <a href="#how-it-works">
-                How It Works
-            </a>
-
-            <a href="#about">
-                About
-            </a>
-
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="#home" class="nav-active">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#about">About</a>
         </nav>
 
 
-        <a
-            href="#research"
-            class="nav-button"
-        >
-            Start Research
-        </a>
+        <!-- LOGIN AND ACCOUNT ACTIONS -->
+
+        <div class="nav-actions">
+
+            <div class="auth-guest" id="authGuestActions">
+
+                <button
+                    type="button"
+                    id="openLoginBtn"
+                    class="auth-login-btn">
+                    Log in
+                </button>
+
+                <button
+                    type="button"
+                    id="openSignupBtn"
+                    class="auth-signup-btn">
+                    Sign up
+                </button>
+
+            </div>
+
+
+            <!-- USER MENU AFTER LOGIN -->
+
+            <div class="auth-user" id="authUserMenu" hidden>
+
+                <button
+                    type="button"
+                    id="authUserMenuBtn"
+                    class="auth-user-trigger"
+                    aria-expanded="false"
+                    aria-controls="authUserDropdown">
+
+                    <span id="authUserAvatar" class="auth-avatar">
+                        U
+                    </span>
+
+                    <span id="authUserLabel" class="auth-user-label">
+                        My account
+                    </span>
+
+                    <svg viewBox="0 0 24 24"
+                         aria-hidden="true"
+                         width="15" height="15">
+                        <path
+                            d="m6 9 6 6 6-6"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+
+                <div
+                    id="authUserDropdown"
+                    class="auth-user-dropdown"
+                    hidden>
+
+                    <p class="auth-dropdown-overline">
+                        Signed in as
+                    </p>
+
+                    <p
+                        id="authUserEmail"
+                        class="auth-dropdown-email">
+                    </p>
+
+                    <button
+                        type="button"
+                        id="authLogoutBtn"
+                        class="auth-logout-btn">
+                        Log out
+                    </button>
+
+                </div>
+            </div>
+
+            <a href="#research" class="nav-button">
+                Start Research
+            </a>
+
+        </div>
 
     </header>
 
 
+    <!-- ================= HERO SECTION ================= -->
 
-    <!-- =====================================================
-         HERO SECTION
-    ====================================================== -->
-
-    <main
-        class="hero-section"
-        id="home"
-    >
-
-        <!-- BACKGROUND GLOWS -->
+    <main class="hero-section" id="home">
 
         <div class="hero-glow hero-glow-one"></div>
-
         <div class="hero-glow hero-glow-two"></div>
 
-
-        <!-- HERO CONTENT -->
 
         <section class="hero-left">
 
@@ -135,45 +159,25 @@
                 AI-Powered Research Assistant
             </p>
 
-
             <h1 class="hero-title">
-
                 The Future of
-
                 <span class="hero-highlight">
                     AI Research
                 </span>
-
                 Starts Here
-
             </h1>
 
-
             <p class="hero-description">
-
                 Research across your PDFs and the web.
                 Get clear, concise answers with
                 source and page citations.
-
             </p>
 
-
             <div class="hero-trust">
-
-                <span>
-                    ✓ PDF + Web Research
-                </span>
-
-                <span>
-                    ✓ Source Citations
-                </span>
-
-                <span>
-                    ✓ Private Sessions
-                </span>
-
+                <span>✓ PDF + Web Research</span>
+                <span>✓ Source Citations</span>
+                <span>✓ Private Sessions</span>
             </div>
-
 
             <div class="hero-buttons">
 
@@ -185,17 +189,11 @@
                     hidden
                 >
 
-                <label
-                    for="pdfUpload"
-                    class="primary-button"
-                >
+                <label for="pdfUpload" class="primary-button">
                     Upload PDFs
                 </label>
 
-                <a
-                    href="#research"
-                    class="secondary-button"
-                >
+                <a href="#research" class="secondary-button">
                     Start Research
                 </a>
 
@@ -204,102 +202,74 @@
         </section>
 
 
+        <!-- ================= RESEARCH WORKSPACE ================= -->
 
-        <!-- =================================================
-             RESEARCH WORKSPACE
-        ================================================== -->
-
-        <section
-            class="hero-right"
-            id="research"
-        >
+        <section class="hero-right" id="research">
 
             <div class="research-card">
 
                 <div class="research-card-glow"></div>
 
-
                 <p class="research-label">
                     AI Research Workspace
                 </p>
-
 
                 <h2>
                     Ask Your Research Question
                 </h2>
 
-
                 <p class="research-description">
-
                     Choose a research source,
                     enter your question and let the
                     AI Research Agent find the answer.
-
                 </p>
-
 
                 <textarea
                     id="question"
-                    placeholder="What would you like to research?"
-                ></textarea>
+                    placeholder="What would you like to research?"></textarea>
 
-
-
-                <!-- SOURCE OPTIONS -->
 
                 <div class="source-options">
 
                     <button
                         type="button"
                         class="source-button active"
-                        data-source="pdf"
-                    >
+                        data-source="pdf">
                         PDF
                     </button>
 
-
                     <button
                         type="button"
                         class="source-button"
-                        data-source="web"
-                    >
+                        data-source="web">
                         Web
                     </button>
 
-
                     <button
                         type="button"
                         class="source-button"
-                        data-source="both"
-                    >
+                        data-source="both">
                         PDF + Web
                     </button>
 
                 </div>
 
 
-
-                <!-- RESEARCH BUTTON -->
-
                 <button
                     type="button"
                     id="researchButton"
-                    class="research-button"
-                >
+                    class="research-button">
                     Research
                 </button>
 
 
-
-                <!-- LIVE ANSWER -->
+                <!-- LIVE RESEARCH ANSWER -->
 
                 <div class="live-answer">
 
                     <div class="answer-header">
 
-                        <h3>
-                            Research Answer
-                        </h3>
+                        <h3>Research Answer</h3>
 
                         <span class="answer-status">
                             Ready
@@ -307,40 +277,30 @@
 
                     </div>
 
-
                     <div
                         id="loadingIndicator"
                         class="loading-indicator"
-                        hidden
-                    >
+                        hidden>
 
                         <div class="loading-spinner"></div>
 
                         <span>
                             Researching your sources...
                         </span>
-
                     </div>
-
 
                     <div id="answer">
                         Your research answer will appear here.
                     </div>
 
-
                     <button
                         id="copyAnswerButton"
                         type="button"
-                        onclick="copyAnswerText()"
-                    >
+                        onclick="copyAnswerText()">
                         Copy Answer
                     </button>
 
-
-                    <div
-                        id="sources"
-                        class="live-sources"
-                    ></div>
+                    <div id="sources" class="live-sources"></div>
 
                 </div>
 
@@ -351,50 +311,33 @@
     </main>
 
 
+    <!-- ================= FEATURES ================= -->
 
-    <!-- =====================================================
-         FEATURES
-    ====================================================== -->
-
-    <section
-        class="features-section"
-        id="features"
-    >
+    <section class="features-section" id="features">
 
         <p class="section-label">
             Key Features
         </p>
 
-
         <h2>
             A Focused AI Research Assistant
         </h2>
 
-
         <p class="section-description">
-
             Search documents, research the web
-            and receive answers supported by
-            clear sources.
-
+            and receive answers supported by clear sources.
         </p>
-
 
 
         <div class="feature-grid">
 
-
-            <!-- PDF RESEARCH -->
+            <!-- PDF FEATURE -->
 
             <div class="feature-card">
 
                 <div class="feature-icon feature-icon-svg">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path
                             d="M6 2.8H14L19 7.8V21H6V2.8Z"
                             fill="none"
@@ -402,7 +345,6 @@
                             stroke-width="1.8"
                             stroke-linejoin="round"
                         />
-
                         <path
                             d="M14 3V8H19"
                             fill="none"
@@ -410,7 +352,6 @@
                             stroke-width="1.8"
                             stroke-linejoin="round"
                         />
-
                         <path
                             d="M9 12H16M9 15H16M9 18H13"
                             fill="none"
@@ -418,145 +359,106 @@
                             stroke-width="1.6"
                             stroke-linecap="round"
                         />
-
                     </svg>
 
                 </div>
 
-
-                <h3>
-                    PDF Research
-                </h3>
-
+                <h3>PDF Research</h3>
 
                 <p>
-
-                    Search your PDF documents
-                    and retrieve the most relevant
-                    information for your question.
-
+                    Search your PDF documents and retrieve
+                    the most relevant information
+                    for your question.
                 </p>
 
             </div>
 
 
-
-            <!-- WEB RESEARCH -->
+            <!-- WEB FEATURE -->
 
             <div class="feature-card">
 
                 <div class="feature-icon feature-icon-svg">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <circle
-                            cx="12"
-                            cy="12"
-                            r="8.5"
+                            cx="12" cy="12" r="8.5"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.8"
                         />
-
                         <path
                             d="M3.8 12H20.2"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.5"
                         />
-
                         <path
                             d="M12 3.5C14.4 6 15.5 8.8 15.5 12C15.5 15.2 14.4 18 12 20.5"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.5"
                         />
-
                         <path
                             d="M12 3.5C9.6 6 8.5 8.8 8.5 12C8.5 15.2 9.6 18 12 20.5"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.5"
                         />
-
                     </svg>
 
                 </div>
 
-
-                <h3>
-                    Web Research
-                </h3>
-
+                <h3>Web Research</h3>
 
                 <p>
-
                     Research current information
-                    from the web using reliable
-                    online sources.
-
+                    from the web using reliable online sources.
                 </p>
 
             </div>
 
 
-
-            <!-- SOURCE CITATIONS -->
+            <!-- CITATIONS FEATURE -->
 
             <div class="feature-card">
 
                 <div class="feature-icon feature-icon-svg">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path
-                            d="M9.5 14.5L14.5 9.5"
+                            d="M10 14L14 10"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.8"
                             stroke-linecap="round"
                         />
-
                         <path
-                            d="M8.2 16.7L6.6 18.3C5 19.9 2.5 19.9 1 18.4C-0.5 16.9 -0.5 14.4 1.1 12.8L4.1 9.8C5.7 8.2 8.2 8.2 9.8 9.8"
+                            d="M8.9 16.2 7.1 18a4 4 0 0 1-5.7-5.7l3.2-3.2a4 4 0 0 1 5.7 0"
                             transform="translate(3 0)"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.6"
                             stroke-linecap="round"
                         />
-
                         <path
-                            d="M15.8 7.3L17.4 5.7C19 4.1 21.5 4.1 23 5.6C24.5 7.1 24.5 9.6 22.9 11.2L19.9 14.2C18.3 15.8 15.8 15.8 14.2 14.2"
+                            d="m15.1 7.8 1.8-1.8a4 4 0 1 1 5.7 5.7l-3.2 3.2a4 4 0 0 1-5.7 0"
                             transform="translate(-3 0)"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="1.6"
                             stroke-linecap="round"
                         />
-
                     </svg>
 
                 </div>
 
-
-                <h3>
-                    Source Citations
-                </h3>
-
+                <h3>Source Citations</h3>
 
                 <p>
-
-                    Receive source names and
-                    page numbers so you can trace
-                    where the information came from.
-
+                    Receive source names and page numbers
+                    so you can trace where
+                    the information came from.
                 </p>
 
             </div>
@@ -566,117 +468,59 @@
     </section>
 
 
+    <!-- ================= HOW IT WORKS ================= -->
 
-    <!-- =====================================================
-         HOW IT WORKS
-    ====================================================== -->
-
-    <section
-        class="how-section"
-        id="how-it-works"
-    >
+    <section class="how-section" id="how-it-works">
 
         <div class="how-heading">
 
-            <p class="section-label">
-                How It Works
-            </p>
+            <p class="section-label">How It Works</p>
 
-
-            <h2>
-                Research in Three Simple Steps
-            </h2>
-
+            <h2>Research in Three Simple Steps</h2>
 
             <p>
-
                 The system handles retrieval,
                 research and answer generation
                 behind the scenes.
-
             </p>
 
         </div>
 
-
-
         <div class="steps-grid">
 
-
-            <!-- STEP 1 -->
-
             <div class="step-card">
+                <span class="step-number">01</span>
 
-                <span class="step-number">
-                    01
-                </span>
-
-
-                <h3>
-                    Choose Your Source
-                </h3>
-
+                <h3>Choose Your Source</h3>
 
                 <p>
-
-                    Select PDF, Web,
-                    or PDF + Web depending
-                    on what you want to research.
-
+                    Select PDF, Web, or PDF + Web
+                    depending on what you want to research.
                 </p>
-
             </div>
 
-
-
-            <!-- STEP 2 -->
-
             <div class="step-card">
+                <span class="step-number">02</span>
 
-                <span class="step-number">
-                    02
-                </span>
-
-
-                <h3>
-                    Ask Your Question
-                </h3>
-
+                <h3>Ask Your Question</h3>
 
                 <p>
-
                     Enter your research question
                     in natural language and start
                     the research process.
-
                 </p>
-
             </div>
 
-
-
-            <!-- STEP 3 -->
-
             <div class="step-card">
+                <span class="step-number">03</span>
 
-                <span class="step-number">
-                    03
-                </span>
-
-
-                <h3>
-                    Get a Grounded Answer
-                </h3>
-
+                <h3>Get a Grounded Answer</h3>
 
                 <p>
-
-                    Receive a concise answer
-                    together with relevant
-                    source information and citations.
-
+                    Receive a concise answer together
+                    with relevant source information
+                    and citations.
                 </p>
-
             </div>
 
         </div>
@@ -684,36 +528,25 @@
     </section>
 
 
-
-    <!-- =====================================================
-         DEMO EXAMPLE
-    ====================================================== -->
+    <!-- ================= DEMO EXAMPLE ================= -->
 
     <section class="example-section">
 
         <div class="example-left">
 
-            <p class="section-label">
-                Demo Example
-            </p>
-
+            <p class="section-label">Demo Example</p>
 
             <h2>
-                See the Research Agent
-                in Action
+                See the Research Agent in Action
             </h2>
 
-
             <p>
-
                 This example shows how a
                 source-grounded answer can
                 appear after research.
-
             </p>
 
         </div>
-
 
 
         <div class="answer-card">
@@ -722,32 +555,21 @@
                 DEMO DATA
             </span>
 
-
-            <h3>
-                Question
-            </h3>
-
+            <h3>Question</h3>
 
             <p>
                 What risks affect renewable energy investment?
             </p>
 
-
-            <h3>
-                Answer
-            </h3>
-
+            <h3>Answer</h3>
 
             <p>
-
                 Renewable energy projects can face
                 financial, regulatory, market,
                 grid integration and currency risks.
                 These risks can increase financing costs
                 and make investment more difficult.
-
             </p>
-
 
             <div class="citation">
                 Renewable Energy Risks.pdf — Page 1
@@ -758,46 +580,27 @@
     </section>
 
 
+    <!-- ================= ABOUT ================= -->
 
-    <!-- =====================================================
-         ABOUT
-    ====================================================== -->
-
-    <section
-        class="about-section"
-        id="about"
-    >
+    <section class="about-section" id="about">
 
         <div class="about-content">
 
-            <p class="section-label">
-                About
-            </p>
+            <p class="section-label">About</p>
 
-
-            <h2>
-                About AI Research Agent
-            </h2>
-
+            <h2>About AI Research Agent</h2>
 
             <p>
-
-                AI Research Agent is a
-                research-focused application
-                designed to answer questions
-                using PDF documents, web research,
-                or both.
-
+                AI Research Agent is a research-focused
+                application designed to answer questions
+                using PDF documents, web research, or both.
             </p>
 
-
             <p>
-
                 It combines information retrieval
                 with AI-generated answers while
                 providing source and page citations
                 for document-based research.
-
             </p>
 
         </div>
@@ -805,10 +608,7 @@
     </section>
 
 
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
+    <!-- ================= FOOTER ================= -->
 
     <footer class="site-footer">
 
@@ -818,9 +618,7 @@
 
                 <span class="footer-dot"></span>
 
-                <strong>
-                    AI Research Agent
-                </strong>
+                <strong>AI Research Agent</strong>
 
                 <span>
                     Built for grounded AI research.
@@ -828,25 +626,11 @@
 
             </div>
 
-
             <div class="footer-links">
-
-                <a href="#home">
-                    Home
-                </a>
-
-                <a href="#features">
-                    Features
-                </a>
-
-                <a href="#how-it-works">
-                    How It Works
-                </a>
-
-                <a href="#about">
-                    About
-                </a>
-
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#about">About</a>
             </div>
 
         </div>
@@ -854,16 +638,208 @@
     </footer>
 
 
+    <!-- ================= LOGIN / SIGN UP POPUP ================= -->
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
+    <div id="authModal" class="auth-modal" hidden>
+
+        <div
+            class="auth-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="authTitle"
+            aria-describedby="authSubtitle">
+
+            <button
+                type="button"
+                id="authCloseBtn"
+                class="auth-close"
+                aria-label="Close login dialog">
+                &times;
+            </button>
+
+
+            <div class="auth-modal-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 3 20 7.5v9L12 21l-8-4.5v-9L12 3Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                    />
+                    <circle
+                        cx="12" cy="12" r="2.4"
+                        fill="currentColor"
+                    />
+                </svg>
+            </div>
+
+
+            <p class="auth-eyebrow">
+                AI RESEARCH AGENT
+            </p>
+
+            <h2 id="authTitle">
+                Welcome back
+            </h2>
+
+            <p id="authSubtitle" class="auth-subtitle">
+                Log in to your research account.
+            </p>
+
+
+            <!-- GOOGLE LOGIN BUTTON -->
+
+            <button
+                type="button"
+                id="authGoogleBtn"
+                class="auth-google-btn">
+
+                <svg viewBox="0 0 24 24"
+                     width="21" height="21"
+                     aria-hidden="true">
+                    <path fill="#4285F4"
+                          d="M21.35 12.25c0-.74-.06-1.49-.19-2.21H12v4.18h5.23a4.45 4.45 0 0 1-1.94 2.92v2.43h3.14c1.84-1.7 2.92-4.2 2.92-7.32Z"/>
+                    <path fill="#34A853"
+                          d="M12 21.74c2.64 0 4.86-.87 6.48-2.36l-3.14-2.43c-.87.58-1.99.93-3.34.93-2.58 0-4.77-1.74-5.55-4.08H3.22v2.5A9.74 9.74 0 0 0 12 21.74Z"/>
+                    <path fill="#FBBC05"
+                          d="M6.45 13.8a5.87 5.87 0 0 1 0-3.74v-2.5H3.22a9.77 9.77 0 0 0 0 8.74l3.23-2.5Z"/>
+                    <path fill="#EA4335"
+                          d="M12 6.01c1.41 0 2.67.49 3.66 1.43l2.75-2.75A9.3 9.3 0 0 0 12 2.26a9.74 9.74 0 0 0-8.78 5.3l3.23 2.5C7.23 7.72 9.42 6.01 12 6.01Z"/>
+                </svg>
+
+                <span>
+                    Continue with Google
+                </span>
+
+            </button>
+
+
+            <div class="auth-separator">
+                <span>or continue with email</span>
+            </div>
+
+
+            <!-- EMAIL LOGIN / REGISTRATION FORM -->
+
+            <form id="authForm" novalidate>
+
+                <label for="authEmail">
+                    Email address
+                </label>
+
+                <input
+                    id="authEmail"
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <div class="auth-password-heading">
+
+                    <label for="authPassword">
+                        Password
+                    </label>
+
+                    <button
+                        type="button"
+                        id="authForgotPasswordBtn"
+                        class="auth-text-button">
+                        Forgot password?
+                    </button>
+
+                </div>
+
+                <input
+                    id="authPassword"
+                    type="password"
+                    name="password"
+                    placeholder="At least 6 characters"
+                    autocomplete="current-password"
+                    minlength="6"
+                    required
+                >
+
+
+                <!-- CONFIRM PASSWORD FOR SIGN UP -->
+
+                <div
+                    id="authConfirmWrap"
+                    class="auth-confirm-wrap"
+                    hidden>
+
+                    <label for="authConfirmPassword">
+                        Confirm password
+                    </label>
+
+                    <input
+                        id="authConfirmPassword"
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        minlength="6"
+                    >
+
+                </div>
+
+
+                <p
+                    id="authMessage"
+                    class="auth-message"
+                    role="status"
+                    aria-live="polite"
+                    hidden>
+                </p>
+
+
+                <button
+                    type="submit"
+                    id="authSubmitBtn"
+                    class="auth-submit-btn">
+                    Log in
+                </button>
+
+            </form>
+
+
+            <!-- SWITCH LOGIN / SIGN UP -->
+
+            <p class="auth-switch">
+
+                <span id="authSwitchPrompt">
+                    New to AI Research Agent?
+                </span>
+
+                <button
+                    type="button"
+                    id="authSwitchBtn"
+                    class="auth-text-button">
+                    Create an account
+                </button>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script src="/static/script.js"></script>
 
+    <script type="module" src="/static/auth_ui.js"></script>
+
+    <script src="/static/script.js"></script>
+
+    <script type="module" src="/static/firebase_api.js"></script>
+    
+    <script type="module" src="/static/auth_ui.js"></script>
 
 </body>
-
 </html>

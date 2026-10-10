@@ -7,3 +7,4 @@ python-multipart
 pypdf
 chromadb
 sentence-transformers
+firebase-admin

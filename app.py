@@ -1,7 +1,20 @@
-from urllib import request
-import uuid
+
+import hashlib
+import logging
 from pathlib import Path
-from fastapi import FastAPI, Request, UploadFile, File
+
+import firebase_admin
+from firebase_admin import auth as firebase_auth
+
+from fastapi import (
+    Depends,
+    FastAPI,
+    File,
+    Header,
+    HTTPException,
+    Request,
+    UploadFile
+)
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -18,12 +31,36 @@ from research_agent import (
 )
 
 
+# ==========================================
+# CONFIGURATION
+# ==========================================
+
+logger = logging.getLogger(__name__)
+
+FIREBASE_PROJECT_ID = "ai-research-agent-f00a9"
+
+MAX_FILES = 10
+MAX_FILE_BYTES = 20 * 1024 * 1024
+MAX_PAGES = 300
+
+
+# ==========================================
+# FIREBASE ADMIN INITIALIZATION
+# ==========================================
+
+try:
+    firebase_admin.get_app()
+except ValueError:
+    firebase_admin.initialize_app(
+        options={"projectId": FIREBASE_PROJECT_ID}
+    )
+
+
+# ==========================================
+# FASTAPI
+# ==========================================
+
 app = FastAPI()
-
-
-# =====================================================
-# STATIC FILES
-# =====================================================
 
 app.mount(
     "/static",
@@ -31,81 +68,125 @@ app.mount(
     name="static"
 )
 
-
-# =====================================================
-# HTML TEMPLATES
-# =====================================================
-
 templates = Jinja2Templates(
     directory="templates"
 )
 
 
-# =====================================================
-# REQUEST FORMAT FROM JAVASCRIPT
-# =====================================================
+# ==========================================
+# RESEARCH REQUEST FORMAT
+# ==========================================
 
 class ResearchRequest(BaseModel):
     question: str
     source: str
 
 
-# =====================================================
+# ==========================================
+# FIREBASE TOKEN VERIFICATION
+# ==========================================
+
+def require_user(
+    authorization: str | None = Header(default=None)
+) -> str:
+
+    if (
+        not authorization or
+        not authorization.lower().startswith("bearer ")
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Please sign in to continue.",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+
+    token = authorization.split(" ", 1)[1].strip()
+
+    if not token:
+        raise HTTPException(
+            status_code=401,
+            detail="Missing Firebase ID token."
+        )
+
+    try:
+        decoded = firebase_auth.verify_id_token(token)
+
+    except (
+        firebase_auth.InvalidIdTokenError,
+        firebase_auth.ExpiredIdTokenError,
+        ValueError
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired login. Please sign in again."
+        )
+
+    except Exception:
+        logger.exception("Firebase token verification error")
+
+        raise HTTPException(
+            status_code=503,
+            detail="Authentication is temporarily unavailable."
+        )
+
+    uid = decoded.get("uid")
+
+    if not uid:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Firebase user identity."
+        )
+
+    return uid
+
+
+# ==========================================
+# SECURE USER WORKSPACE
+# ==========================================
+
+def workspace_id(uid: str) -> str:
+
+    hashed_uid = hashlib.sha256(
+        uid.encode("utf-8")
+    ).hexdigest()
+
+    return "user_" + hashed_uid
+
+
+# ==========================================
 # HOME PAGE
-# =====================================================
+# ==========================================
 
 @app.get("/")
 def home(request: Request):
 
-    session_id = request.cookies.get("session_id")
-
-    if not session_id:
-        session_id = str(uuid.uuid4())
-
-    response = templates.TemplateResponse(
+    return templates.TemplateResponse(
         request=request,
         name="index.html",
         context={}
     )
 
-    response.set_cookie(
-        key="session_id",
-        value=session_id,
-        httponly=True
-    )
 
-    return response
-
-
-# =====================================================
-# MULTIPLE PDF UPLOAD
-# =====================================================
+# ==========================================
+# PDF UPLOAD
+# ==========================================
 
 @app.post("/upload")
 async def upload_pdfs(
-    request: Request,
-    files: list[UploadFile] = File(...)
+    files: list[UploadFile] = File(...),
+    uid: str = Depends(require_user)
 ):
 
-    uploaded_files = []
-    
-    # Maximum number of PDFs allowed per upload
-    max_files = 10
-
-    if len(files) > max_files:
-
+    if len(files) > MAX_FILES:
         return {
             "success": False,
-            "message": f"You can upload a maximum of {max_files} PDF files at a time."
+            "message": (
+                f"You can upload a maximum of "
+                f"{MAX_FILES} PDF files at a time."
+            )
         }
 
-    session_id = request.cookies.get("session_id")
-
-    if not session_id:
-        return {
-            "success": False,
-            "message": "Session not found. Please refresh the page."
-        }
+    session_id = workspace_id(uid)
 
     upload_folder = Path("uploads") / session_id
 
@@ -113,96 +194,80 @@ async def upload_pdfs(
         parents=True,
         exist_ok=True
     )
-    
+
+    uploaded_files = []
     file_path = None
 
     try:
-
         for file in files:
 
-            # Skip non-PDF files
-            if not file.filename.lower().endswith(".pdf"):
+            safe_filename = Path(
+                file.filename or ""
+            ).name
+
+            if not safe_filename.lower().endswith(".pdf"):
                 continue
-            # Keep only the real filename
-            safe_filename = Path(file.filename).name
-
-
-            # -----------------------------------------
-            # SAVE PDF
-            # -----------------------------------------
 
             file_path = upload_folder / safe_filename
-            
-            # Prevent duplicate PDF uploads
+
             if file_path.exists():
-
                 return {
                     "success": False,
-                    "message": f"{safe_filename} has already been uploaded."
+                    "message": (
+                        f"{safe_filename} has already been uploaded."
+                    )
                 }
 
-            file_content = await file.read()
-            
-            # Maximum PDF size: 20 MB
-            max_file_size = 20 * 1024 * 1024
+            file_content = await file.read(
+                MAX_FILE_BYTES + 1
+            )
 
-            if len(file_content) > max_file_size:
-
+            if len(file_content) > MAX_FILE_BYTES:
                 return {
                     "success": False,
-                    "message": f"{safe_filename} is too large. Maximum file size is 20 MB."
+                    "message": (
+                        f"{safe_filename} is too large. "
+                        "Maximum file size is 20 MB."
+                    )
                 }
-            
-            # Validate that the file is actually a PDF
+
             if not file_content.startswith(b"%PDF-"):
-
                 return {
                     "success": False,
-                    "message": f"{safe_filename} is not a valid PDF file."
+                    "message": (
+                        f"{safe_filename} is not a valid PDF file."
+                    )
                 }
 
+            # Save PDF
 
-            with open(file_path, "wb") as saved_file:
+            file_path.write_bytes(file_content)
 
-                saved_file.write(
-                    file_content
-                )
-
-
-            # -----------------------------------------
-            # READ PDF
-            # -----------------------------------------
+            # Read PDF
 
             _, page_texts = read_pdf(
                 str(file_path)
             )
-            
-            # Maximum number of pages allowed per PDF
-            max_pages = 300
 
-            if len(page_texts) > max_pages:
+            if len(page_texts) > MAX_PAGES:
 
-                if file_path.exists():
-                    file_path.unlink()
+                file_path.unlink(missing_ok=True)
 
                 return {
                     "success": False,
-                    "message": f"{safe_filename} has too many pages. Maximum allowed is {max_pages} pages."
+                    "message": (
+                        f"{safe_filename} has too many pages. "
+                        f"Maximum allowed is {MAX_PAGES} pages."
+                    )
                 }
 
-
-            # -----------------------------------------
-            # CREATE CHUNKS
-            # -----------------------------------------
+            # Create chunks
 
             chunks, page_metadatas = chunk_pages(
                 page_texts
             )
 
-
-            # -----------------------------------------
-            # STORE IN CHROMADB
-            # -----------------------------------------
+            # Store in ChromaDB
 
             store_chunks(
                 chunks,
@@ -211,93 +276,80 @@ async def upload_pdfs(
                 session_id
             )
 
+            uploaded_files.append(safe_filename)
 
-            uploaded_files.append(
-                safe_filename
-            )
-
+            file_path = None
 
         if not uploaded_files:
-
             return {
                 "success": False,
-                "message":
-                    "No valid PDF files were uploaded."
+                "message": "No valid PDF files were uploaded."
             }
-
 
         return {
             "success": True,
-            "message":
-                "PDFs uploaded and indexed successfully.",
+            "message": "PDFs uploaded and indexed successfully.",
             "filenames": uploaded_files
         }
 
+    except Exception:
 
-    except Exception as e:
+        logger.exception("PDF processing failed")
 
-        # Remove unreadable or partially processed PDF
-        if file_path and file_path.exists():
-            file_path.unlink()
+        if file_path is not None:
+            file_path.unlink(missing_ok=True)
 
         return {
             "success": False,
-            "message": f"PDF processing failed: {e}"
+            "message": "PDF processing failed. Please try again."
         }
 
+    finally:
 
-# =====================================================
+        for file in files:
+            await file.close()
+
+
+# ==========================================
 # RESEARCH ENDPOINT
-# =====================================================
+# ==========================================
 
 @app.post("/ask")
-def ask_question(data: ResearchRequest, request: Request):
-    
-     # Get current user's session ID
-    session_id = request.cookies.get("session_id")
+def ask_question(
+    data: ResearchRequest,
+    uid: str = Depends(require_user)
+):
 
-    if not session_id:
-
-        return {
-            "answer": "Session not found. Please refresh the page."
-        }
+    session_id = workspace_id(uid)
 
     question = data.question.strip()
-
     source = data.source.lower().strip()
 
-
-    # -----------------------------------------
-    # CHECK EMPTY QUESTION
-    # -----------------------------------------
-
     if not question:
-
         return {
-            "answer":
-                "Please enter a research question."
+            "answer": "Please enter a research question."
         }
 
+    if source not in ("pdf", "web", "both"):
+        return {
+            "answer": "Please select PDF, Web, or PDF + Web."
+        }
 
-    # =================================================
+    # ======================================
     # WEB ONLY
-    # =================================================
+    # ======================================
 
     if source == "web":
 
-        answer = generate_answer(
-            question
-        )
-
+        answer = generate_answer(question)
 
         return {
             "answer": answer
         }
 
-
-    # =================================================
-    # FIND ALL PDF FILES
-    # =================================================
+    # ======================================
+    # FIND USER PDF FILES
+    # ======================================
 
     user_upload_folder = Path("uploads") / session_id
 
@@ -305,33 +357,22 @@ def ask_question(data: ResearchRequest, request: Request):
         user_upload_folder.glob("*.pdf")
     )
 
-
     if not pdf_files:
-
         return {
-            "answer":
-                "No PDF files were found."
+            "answer": "No PDF files were found."
         }
 
-
     all_chunks = []
-
     all_metadatas = []
-
     all_distances = []
 
-
-    # =================================================
-    # PDF INDEXING + RETRIEVAL
-    # =================================================
+    # ======================================
+    # PDF RETRIEVAL
+    # ======================================
 
     for pdf_file in pdf_files:
 
         try:
-
-            # -----------------------------------------
-            # INDEX PDF IF NOT ALREADY INDEXED
-            # -----------------------------------------
 
             if not is_document_indexed(
                 pdf_file.name,
@@ -342,11 +383,9 @@ def ask_question(data: ResearchRequest, request: Request):
                     str(pdf_file)
                 )
 
-
                 chunks, page_metadatas = chunk_pages(
                     page_texts
                 )
-
 
                 store_chunks(
                     chunks,
@@ -354,11 +393,6 @@ def ask_question(data: ResearchRequest, request: Request):
                     page_metadatas,
                     session_id
                 )
-
-
-            # -----------------------------------------
-            # RETRIEVE RELEVANT CHUNKS
-            # -----------------------------------------
 
             chunks, metadatas, distances = (
                 retrieve_relevant_chunks(
@@ -369,79 +403,53 @@ def ask_question(data: ResearchRequest, request: Request):
                 )
             )
 
+            all_chunks.extend(chunks)
+            all_metadatas.extend(metadatas)
+            all_distances.extend(distances)
 
-            all_chunks.extend(
-                chunks
+        except Exception:
+            logger.exception(
+                "Skipping PDF during retrieval"
             )
 
-
-            all_metadatas.extend(
-                metadatas
-            )
-
-
-            all_distances.extend(
-                distances
-            )
-
-
-        except Exception as e:
-
-            print(
-                f"Skipping {pdf_file.name}: {e}"
-            )
-
-
-    # =================================================
-    # NO RETRIEVAL RESULTS
-    # =================================================
+    # ======================================
+    # CHECK RESULTS
+    # ======================================
 
     if not all_chunks:
-
         return {
-            "answer":
+            "answer": (
                 "I could not find relevant information "
                 "in the available documents."
+            )
         }
 
+    # ======================================
+    # GLOBAL RANKING
+    # ======================================
 
-    # =================================================
-    # GLOBAL RANKING ACROSS ALL PDFs
-    # =================================================
-
-    combined_results = list(
+    combined_results = sorted(
         zip(
             all_chunks,
             all_metadatas,
             all_distances
-        )
-    )
-
-
-    combined_results.sort(
+        ),
         key=lambda item: item[2]
     )
 
-
-    # Keep best 3 results globally
     top_results = combined_results[:3]
 
-
     relevant_chunks = [
-        item[0]
-        for item in top_results
+        item[0] for item in top_results
     ]
-
 
     metadatas = [
-        item[1]
-        for item in top_results
+        item[1] for item in top_results
     ]
 
-
-    # =================================================
+    # ======================================
     # BUILD RAG PROMPT
-    # =================================================
+    # ======================================
 
     prompt = build_rag_prompt(
         question,
@@ -449,19 +457,17 @@ def ask_question(data: ResearchRequest, request: Request):
         metadatas
     )
 
-
     if prompt is None:
-
         return {
-            "answer":
+            "answer": (
                 "I could not find this information "
                 "in the provided documents."
+            )
         }
 
-
-    # =================================================
+    # ======================================
     # PDF ONLY
-    # =================================================
+    # ======================================
 
     if source == "pdf":
 
@@ -469,67 +475,52 @@ def ask_question(data: ResearchRequest, request: Request):
             prompt
         )
 
-
         return {
             "answer": answer
         }
 
-
-    # =================================================
+    # ======================================
     # PDF + WEB
-    # =================================================
+    # ======================================
 
-    if source == "both":
+    combined_context = "\n\n".join(
 
-        combined_context = "\n\n".join(
-            [
-                f"[Source: {metadata.get('source', 'Unknown')}, "
-                f"Page: {metadata.get('page', 'Unknown')}]\n{chunk}"
-                for chunk, metadata in zip(
-                    relevant_chunks,
-                    metadatas
-                )
-            ]
+        f"[Source: {metadata.get('source', 'Unknown')}, "
+        f"Page: {metadata.get('page', 'Unknown')}]\n{chunk}"
+
+        for chunk, metadata in zip(
+            relevant_chunks,
+            metadatas
         )
+    )
 
-        combined_prompt = f"""
-    Research the user's question using BOTH:
+    combined_prompt = f"""
+Research the user's question using BOTH:
 
-    1. The PDF context below.
-    2. Reliable current web sources.
+1. The PDF context below.
+2. Reliable current web sources.
 
-    PDF CONTEXT:
-    {combined_context}
+PDF CONTEXT:
+{combined_context}
 
-    QUESTION:
-    {question}
+QUESTION:
+{question}
 
-    INSTRUCTIONS:
+INSTRUCTIONS:
+- Use the PDF evidence where relevant.
+- Use current web sources for additional or up-to-date information.
+- Do not invent information.
+- Clearly distinguish PDF evidence from web information.
+- Cite PDF information using filename and page number.
+- Cite web information using the actual source.
+- Keep the answer clear and concise.
+- Add a Sources section at the end containing both PDF and web sources actually used.
+"""
 
-    - Use the PDF evidence where relevant.
-    - Use current web sources for additional or up-to-date information.
-    - Do not invent information.
-    - Clearly distinguish PDF evidence from web information.
-    - Cite PDF information using filename and page number.
-    - Cite web information using the actual source.
-    - Keep the answer clear and concise.
-    - Add a Sources section at the end containing both PDF and web sources actually used.
-    """
-
-        answer = generate_combined_answer(
-            combined_prompt
-        )
-
-        return {
-            "answer": answer
-        }
-
-
-    # =================================================
-    # INVALID SOURCE
-    # =================================================
+    answer = generate_combined_answer(
+        combined_prompt
+    )
 
     return {
-        "answer":
-            "Please select PDF, Web, or PDF + Web."
+        "answer": answer
     }
