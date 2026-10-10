@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -15,29 +17,71 @@
         rel="stylesheet"
         href="/static/style.css"
     >
+
 </head>
 
 
 <body>
 
 
-    <!-- =========================
+    <!-- =====================================================
          NAVBAR
-    ========================== -->
+    ====================================================== -->
 
     <header class="navbar">
 
         <a
             href="#home"
-            class="logo"
+            class="logo premium-logo"
+            aria-label="AI Research Agent Home"
         >
-            AI Research Agent
+
+            <span class="logo-mark">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="M12 3L20 7.5V16.5L12 21L4 16.5V7.5L12 3Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="2.4"
+                        fill="currentColor"
+                    />
+
+                    <path
+                        d="M12 5.8V9.5M18 9L14.8 10.8M18 15L14.8 13.2M12 18.2V14.5M6 15L9.2 13.2M6 9L9.2 10.8"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="logo-text">
+                AI Research
+                <span>Agent</span>
+            </span>
+
         </a>
 
 
         <nav class="nav-links">
 
-            <a href="#home">
+            <a
+                href="#home"
+                class="nav-active"
+            >
                 Home
             </a>
 
@@ -67,51 +111,71 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================================
          HERO SECTION
-    ========================== -->
+    ====================================================== -->
 
     <main
         class="hero-section"
         id="home"
     >
 
+        <!-- BACKGROUND GLOWS -->
 
-        <!-- LEFT SIDE -->
+        <div class="hero-glow hero-glow-one"></div>
+
+        <div class="hero-glow hero-glow-two"></div>
+
+
+        <!-- HERO CONTENT -->
 
         <section class="hero-left">
 
-            <h1>
-                The Future of
-                <br>
+            <p class="hero-eyebrow">
+                AI-Powered Research Assistant
+            </p>
 
-                AI Research
-                <br>
+
+            <h1 class="hero-title">
+
+                The Future of
+
+                <span class="hero-highlight">
+                    AI Research
+                </span>
 
                 Starts Here
+
             </h1>
 
 
             <p class="hero-description">
 
                 Research across your PDFs and the web.
-
                 Get clear, concise answers with
                 source and page citations.
 
             </p>
 
+
             <div class="hero-trust">
-                <span>✓ PDF + Web Research</span>
-                <span>✓ Source Citations</span>
-                <span>✓ Private Sessions</span>
+
+                <span>
+                    ✓ PDF + Web Research
+                </span>
+
+                <span>
+                    ✓ Source Citations
+                </span>
+
+                <span>
+                    ✓ Private Sessions
+                </span>
+
             </div>
 
 
             <div class="hero-buttons">
-
-
-                <!-- PDF FILE PICKER -->
 
                 <input
                     type="file"
@@ -121,14 +185,12 @@
                     hidden
                 >
 
-
                 <label
                     for="pdfUpload"
                     class="primary-button"
                 >
                     Upload PDFs
                 </label>
-
 
                 <a
                     href="#research"
@@ -143,7 +205,9 @@
 
 
 
-        <!-- RIGHT SIDE -->
+        <!-- =================================================
+             RESEARCH WORKSPACE
+        ================================================== -->
 
         <section
             class="hero-right"
@@ -151,6 +215,13 @@
         >
 
             <div class="research-card">
+
+                <div class="research-card-glow"></div>
+
+
+                <p class="research-label">
+                    AI Research Workspace
+                </p>
 
 
                 <h2>
@@ -178,7 +249,6 @@
 
                 <div class="source-options">
 
-
                     <button
                         type="button"
                         class="source-button active"
@@ -205,12 +275,11 @@
                         PDF + Web
                     </button>
 
-
                 </div>
 
 
 
-                <!-- ACTUAL RESEARCH BUTTON -->
+                <!-- RESEARCH BUTTON -->
 
                 <button
                     type="button"
@@ -222,7 +291,7 @@
 
 
 
-                <!-- LIVE ANSWER AREA -->
+                <!-- LIVE ANSWER -->
 
                 <div class="live-answer">
 
@@ -238,22 +307,26 @@
 
                     </div>
 
+
                     <div
                         id="loadingIndicator"
                         class="loading-indicator"
                         hidden
                     >
+
                         <div class="loading-spinner"></div>
 
                         <span>
                             Researching your sources...
                         </span>
+
                     </div>
 
 
                     <div id="answer">
                         Your research answer will appear here.
                     </div>
+
 
                     <button
                         id="copyAnswerButton"
@@ -271,7 +344,6 @@
 
                 </div>
 
-
             </div>
 
         </section>
@@ -280,9 +352,9 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================================
          FEATURES
-    ========================== -->
+    ====================================================== -->
 
     <section
         class="features-section"
@@ -316,8 +388,39 @@
 
             <div class="feature-card">
 
-                <div class="feature-icon">
-                    PDF
+                <div class="feature-icon feature-icon-svg">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M6 2.8H14L19 7.8V21H6V2.8Z"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M14 3V8H19"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M9 12H16M9 15H16M9 18H13"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -342,8 +445,45 @@
 
             <div class="feature-card">
 
-                <div class="feature-icon">
-                    WEB
+                <div class="feature-icon feature-icon-svg">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="8.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        />
+
+                        <path
+                            d="M3.8 12H20.2"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        />
+
+                        <path
+                            d="M12 3.5C14.4 6 15.5 8.8 15.5 12C15.5 15.2 14.4 18 12 20.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        />
+
+                        <path
+                            d="M12 3.5C9.6 6 8.5 8.8 8.5 12C8.5 15.2 9.6 18 12 20.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -364,12 +504,45 @@
 
 
 
-            <!-- CITATIONS -->
+            <!-- SOURCE CITATIONS -->
 
             <div class="feature-card">
 
-                <div class="feature-icon">
-                    SRC
+                <div class="feature-icon feature-icon-svg">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M9.5 14.5L14.5 9.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                        />
+
+                        <path
+                            d="M8.2 16.7L6.6 18.3C5 19.9 2.5 19.9 1 18.4C-0.5 16.9 -0.5 14.4 1.1 12.8L4.1 9.8C5.7 8.2 8.2 8.2 9.8 9.8"
+                            transform="translate(3 0)"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        />
+
+                        <path
+                            d="M15.8 7.3L17.4 5.7C19 4.1 21.5 4.1 23 5.6C24.5 7.1 24.5 9.6 22.9 11.2L19.9 14.2C18.3 15.8 15.8 15.8 14.2 14.2"
+                            transform="translate(-3 0)"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -388,16 +561,15 @@
 
             </div>
 
-
         </div>
 
     </section>
 
 
 
-    <!-- =========================
+    <!-- =====================================================
          HOW IT WORKS
-    ========================== -->
+    ====================================================== -->
 
     <section
         class="how-section"
@@ -507,19 +679,17 @@
 
             </div>
 
-
         </div>
 
     </section>
 
 
 
-    <!-- =========================
+    <!-- =====================================================
          DEMO EXAMPLE
-    ========================== -->
+    ====================================================== -->
 
     <section class="example-section">
-
 
         <div class="example-left">
 
@@ -548,7 +718,6 @@
 
         <div class="answer-card">
 
-
             <span class="demo-label">
                 DEMO DATA
             </span>
@@ -560,11 +729,8 @@
 
 
             <p>
-
                 What risks affect renewable energy investment?
-
             </p>
-
 
 
             <h3>
@@ -573,21 +739,19 @@
 
 
             <p>
+
                 Renewable energy projects can face
                 financial, regulatory, market,
                 grid integration and currency risks.
                 These risks can increase financing costs
                 and make investment more difficult.
+
             </p>
 
 
-
             <div class="citation">
-
                 Renewable Energy Risks.pdf — Page 1
-
             </div>
-
 
         </div>
 
@@ -595,9 +759,9 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================================
          ABOUT
-    ========================== -->
+    ====================================================== -->
 
     <section
         class="about-section"
@@ -605,7 +769,6 @@
     >
 
         <div class="about-content">
-
 
             <p class="section-label">
                 About
@@ -637,14 +800,64 @@
 
             </p>
 
-
         </div>
 
     </section>
 
 
 
-    <!-- JAVASCRIPT -->
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <span class="footer-dot"></span>
+
+                <strong>
+                    AI Research Agent
+                </strong>
+
+                <span>
+                    Built for grounded AI research.
+                </span>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="#home">
+                    Home
+                </a>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#how-it-works">
+                    How It Works
+                </a>
+
+                <a href="#about">
+                    About
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 

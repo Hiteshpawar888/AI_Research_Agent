@@ -507,3 +507,49 @@ function animateQuestionPlaceholder() {
 
 
 animateQuestionPlaceholder();
+
+const navigationLinks = document.querySelectorAll(
+    ".nav-links a"
+);
+
+const pageSections = document.querySelectorAll(
+    "section[id], main[id]"
+);
+
+const sectionObserver = new IntersectionObserver(
+    (entries) => {
+
+        entries.forEach((entry) => {
+
+            if (!entry.isIntersecting) {
+                return;
+            }
+
+            navigationLinks.forEach((link) => {
+
+                link.classList.remove(
+                    "nav-active"
+                );
+
+                if (
+                    link.getAttribute("href") ===
+                    `#${entry.target.id}`
+                ) {
+                    link.classList.add(
+                        "nav-active"
+                    );
+                }
+
+            });
+
+        });
+
+    },
+    {
+        threshold: 0.35
+    }
+);
+
+pageSections.forEach((section) => {
+    sectionObserver.observe(section);
+});
